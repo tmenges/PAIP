@@ -62,7 +62,7 @@
       (append (remove-if #'(lambda (x)
                              (member-equal x (op-del-list op)))
                          state2)
-              (op-add-list-op)))))
+              (op-add-list op)))))
 
 (defun appropriate-p (goal op)
   "An op is appropriate to a goal if it is in its add-list"
@@ -90,7 +90,7 @@
   (setf *dbg-ids* (if (null ids) nil
                       (set-difference *dbg-ids* ids))))
 
-(defun dbg-ident (id indent format-string &rest args)
+(defun dbg-indent (id indent format-string &rest args)
   "Print indented debugging info if (DEBUG ID has been specified."
   (when (member id *dbg-ids*)
     (fresh-line *debug-io*)
