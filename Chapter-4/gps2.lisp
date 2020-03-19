@@ -31,6 +31,11 @@
   (remove-if #'atom (achieve-all (cons '(start) state) goals nil)))
 
 (defun achieve-all (state goals goal-stack)
+  "Achieve each goal, trying several orderings."
+  (some #'(lambda (goals) (achieve-each state goals goal-stack))
+        (ordering goals)))
+
+(defun achieve-each (state goals goal-stack)
   "Achieve each goal, and make sure they still hold at the end."
   (let ((current-state state))
     (if (and (every #'(lambda (g)
@@ -49,8 +54,10 @@
                      (apply-op state goal op goal-stack))
                  (find-all goal *ops* :test #'appropriate-p)))))
 
-(defun member-equal (item list)
-  (member item list :test #'equal))
+(defun orderings (l)
+  (if (>  (length l) 1)
+      (list l (reverse l))
+      (list l)))
 
 (defun apply-op (state goal op goal-stack)
   "Return a new, transformed state if op is applicable."

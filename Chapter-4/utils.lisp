@@ -14,3 +14,7 @@
       nil
       (append (funcall fn (first the-list))
               (mappend fn (rest the-list)))))
+
+(defun member-equal (item list)
+  (member item list :test #'equal))
+
